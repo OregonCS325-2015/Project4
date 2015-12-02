@@ -18,7 +18,7 @@ def read_file(name):
         index, a, b = i.split()
         x.append(int(a))
         y.append(int(b))
-        z.append((int(a), int(b)))
+        z.append((int(a), int(b), int(index)))
 
     return x, y, z
 
@@ -89,8 +89,8 @@ def sort_coordinates(a, v):
     #looks over the list swapping if the ys are larger
     for i in range(0,len(a)-1):
         if (a[i][v] == a[i+1][v]) & (a[i][l] > a[i+1][l]):
+            #swap
             f,g = a[i], a[i+1]
-
             a[i], a[i+1]= g,f
 
     return a
@@ -99,7 +99,7 @@ def sort_coordinates(a, v):
 
 x,y,z = read_file('tsp_test_cases/test-input-2.txt')
 
-pyZ = sort_coordinates(z,1)
-
-print pyZ
+pyz = sort_coordinates(z,0)
+print (z)
+print(pyz)
 
