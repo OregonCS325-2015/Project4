@@ -98,7 +98,7 @@ def sort_coordinates(a, v):
 
 
 x,y,z = read_file('tsp_test_cases/test-input-2.txt')
-
+da
 pyz = sort_coordinates(z,0)
 print (z)
 print(pyz)
