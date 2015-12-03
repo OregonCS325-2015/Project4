@@ -84,22 +84,24 @@ def sort_coordinates(a, v):
     else:
         l = 0
 
-    a = sorted(z, key=lambda x: x[v])
+    a = sorted(a, key=lambda x: x[v])
 
-    #looks over the list swapping if the ys are larger
-    for i in range(0,len(a)-1):
-        if (a[i][v] == a[i+1][v]) & (a[i][l] > a[i+1][l]):
-            #swap
-            f,g = a[i], a[i+1]
-            a[i], a[i+1]= g,f
+    for i in range(0, len(a)):
+        #looks over the list swapping if the ys are larger
+        for i in range(1,len(a)):
+            if (a[i-1][v] == a[i][v]) & (a[i-1][l] > a[i][l]):
+                #swap
+                f,g = a[i-1], a[i]
+                a[i-1], a[i]= g,f
 
     return a
 
 
 
 x,y,z = read_file('tsp_test_cases/test-input-2.txt')
-da
-pyz = sort_coordinates(z,0)
-print (z)
-print(pyz)
+
+test = [(0,50,0), (0,40,1), (0,10,2)]
+pyz = sort_coordinates(test,0)
+print (pyz)
+
 
