@@ -113,7 +113,7 @@ def sort_coordinates(a, v):
     return a
 
 
-# there will be four variables namely: xTop, xBottom, yTop, and YBottom that will be used to track current index from top and bottom in the two sorted lists
+# there will be four variables namely: xTop, xBottom, yTop, and yBottom that will be used to track current index from top and bottom in the two sorted lists
 # There will be a list E that holds current connected edge list in contiguous order
 # There will be a list v that is used to identify if specific vertex is already considered or not (0 for no or 1 for yes)
 # @param tpos bpos = xTop or Xbottom or whaever, sorted list is which list you're working from
@@ -122,9 +122,9 @@ def sort_coordinates(a, v):
 # @param sortedList = the x or y sorted list
 def add_remaining(E, V, sortedList, tpos, bpos):
     # FOR EACH UNCONNECTED VERTEX, DETERMINE CONNECTION WITH LEAST ADDED COST (DISTANCE) AND CONNECT
-    Addition = sys.maxsize
 
-    while (tpos <= bpos):
+    while tpos <= bpos:
+        addition = sys.maxsize
 
         if V[tpos] == 0:
 
@@ -133,34 +133,33 @@ def add_remaining(E, V, sortedList, tpos, bpos):
             V[tpos] = 1
             vp = sortedList[tpos]  # coordinate pair of Xtop
             s = len(E)
+            idx = 0
+            v1 = 0
+            v2 = 0
 
             # loop
             for i in range(0, s - 1):
-
+                # calc edges between all 3 points
                 d1 = calc_distance(vp[0], E[i])
                 d2 = calc_distance(vp[0], E[i + 1])
                 lofEdge = calc_distance(E[i], E[i + 1])
                 newAddition = (d1 + d2 - lofEdge)
 
-                ## if the new edge is awesome we do something with it
-                if (newAddition < Addition):
-                    Addition = newAddition
+                # if the new edge is awesome we do something with it
+                if newAddition < addition:
+                    addition = newAddition
                     v1 = E[i]
                     v2 = E[i + 1]
                     idx = i + 1  # not sure what for
 
-                i = i + 2  # not sure this what it's supposed to My Iterator is i in this loop, is this supposed to up that?
+            # Connect vprime with v1 and v2 to create edges vprimev1 and vprimev2 and disconnect v1 from v2
+            # IS THIS THE EQUIVALENT OF PUTTING vp between E[i] and E[i+1] then... but this is happening outside of your for loop in the doc and now I'm befuddeled.
+            # IF it is the case the we only insert when the if statement is true then this can go above. in addition it can be done then without setting the vars in the if stment. I followed the pseudo code and got lost
 
-                # Connect vprime with v1 and v2 to create edges vprimev1 and vprimev2 and disconnect v1 from v2
-                # IS THIS THE EQUVALEENT OF PUTTING vp between E[i] and E[i+1] then... but this is happeneing outside of your for loop in the doc and now I'm befuddeled.
-                # IF it is the case the we only insert when the if stament is true then this can go above. in addtion it can be done then without setting the vars in the if stment. I followed the pseudo code and got lost
+            E.insert(idx,
+                     vp)  # CHECK THIS: it inserts before the point BUT IDEX IS NOT BEING SET OUT SIDE THE IF STMT
 
-                E.insert(idx,vp)  # CHECK THIS: it inserts before the point BUT IDEX IS NOT BEING SET OUT SIDE THE IF STMT
-
-            tpos + 1  # increase teh check postion by 1
-
-            # reset Addition
-            Addition = sys.maxsize
+        tpos += 1  # increase the check position by 1
 
 
 x, y, z = read_file('tsp_test_cases/test-input-2.txt')
