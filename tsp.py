@@ -112,6 +112,143 @@ def sort_coordinates(a, v):
 
     return a
 
+#Create outer cycle
+#create edge list tuple
+#create vertex tracking list
+#create path tracking list
+def algorithm (l):
+     size=len(l)
+     print("\n")
+     print ("size: %d" %size)
+     list1=sort_coordinates(l,0)
+     list2=sort_coordinates(l,1)
+     xTop=0
+     xBottom=size-1
+     yTop=0
+     yBottom=size-1
+     
+     vertexList=[0]*size
+     path=[0]*size 
+     pathIndex=0
+     smallXsmallY=list1[xTop]
+     E = []
+     
+     while (list1[xTop][0]==list1[xTop+1][0]):
+	E.append((int(list1[xTop][0]), int(list1[xTop][1]), int(list1[xTop][2])))
+	E.append((int(list1[xTop+1][0]), int(list1[xTop+1][1]), int(list1[xTop+1][2])))
+	path[pathIndex]=list1[xTop][2]
+	pathIndex=pathIndex+1
+	path[pathIndex]=list1[xTop+1][2]
+#	pathIndex=pathIndex+1
+
+#	E[i]=list1[xTop]
+#	E[i+1]=list1[xTop+1]
+	if (vertexList[list1[xTop][2]-1]==0):
+		vertexList[list1[xTop][2]-1]=1
+	if (vertexList[list1[xTop+1][2]-1]==0):
+		vertexList[list1[xTop+1][2]-1]=1
+	xTop=xTop+1
+	
+#	print E[0:len(E)]
+
+     smallXlargeY=list1[xTop]
+     if (vertexList[list1[xTop][2]-1]==0):
+	vertexList[list1[xTop][2]-1]=1
+
+
+     largeYlargeX=list2[yBottom]     
+     while (list2[yBottom][1]==list2[yBottom-1][1]):
+	E.append((int(list2[yBottom][0]), int(list2[yBottom][1]), int(list2[yBottom][2])))
+	E.append((int(list2[yBottom-1][0]), int(list2[yBottom-1][1]), int(list2[yBottom-1][2])))
+	if (vertexList[list2[yBottom][2]-1]==0):
+		vertexList[list2[yBottom][2]-1]=1
+	if (vertexList[list2[yBottom-1][2]-1]==0):
+		vertexList[list2[yBottom-1][2]-1]=1
+	yBottom=yBottom-1
+     largeYsmallX=list2[yBottom+1]
+
+     if (smallXlargeY!=largeYsmallX):
+	E.append((int(list1[xTop][0]), int(list1[xTop][1]), int(list1[xTop][2])))
+
+     	E.append((int(list2[yBottom][0]), int(list2[yBottom][1]), int(list2[yBottom][2])))
+     yBot=yBottom
+     pathIndex=pathIndex+1
+     while (yBot<size):
+     	path[pathIndex]=list2[yBot][2]
+     	pathIndex=pathIndex+1
+	yBot=yBot+1
+
+
+
+     largeXlargeY=list1[xBottom]     
+     while (list1[xBottom][0]==list1[xBottom-1][0]):
+	E.append((int(list1[xBottom][0]), int(list1[xBottom][1]), int(list1[xBottom][2])))
+	E.append((int(list1[xBottom-1][0]), int(list1[xBottom-1][1]), int(list1[xBottom-1][2])))
+	if (vertexList[list1[xBottom][2]-1]==0):
+		vertexList[list1[xBottom][2]-1]=1
+	if (vertexList[list1[xBottom-1][2]-1]==0):
+		vertexList[list1[xBottom-1][2]-1]=1
+	
+	path[pathIndex]=list1[xBottom][2]
+	pathIndex=pathIndex+1
+	path[pathIndex]=list1[xBottom-1][2]
+	xBottom=xBottom-1
+
+
+     largeXsmallY=list1[xBottom]
+
+     if (largeXlargeY!=largeYlargeX):
+	E.append((largeYlargeX))
+
+     	E.append((largeXlargeY))
+
+
+
+     smallYsmallX=list2[yTop]
+    
+     while (list2[yTop][1]==list2[yTop+1][1]):
+	E.append((int(list2[yTop][0]), int(list2[yTop][1]), int(list2[yTop][2])))
+	E.append((int(list2[yTop+1][0]), int(list2[yTop+1][1]), int(list2[yTop+1][2])))
+
+	if (vertexList[list2[yTop][2]-1]==0):
+		vertexList[list2[yTop][2]-1]=1
+	if (vertexList[list2[yTop+1][2]-1]==0):
+		vertexList[list2[yTop+1][2]-1]=1
+	yTop=yTop+1
+	
+     smallYlargeX=list2[yTop]
+     if (vertexList[list2[yTop][2]-1]==0):
+	vertexList[list2[yTop][2]-1]=1
+
+     if (largeXsmallY!=smallYlargeX):
+	E.append((largeXsmallY))
+
+     	E.append((smallYlargeX))
+
+     if (smallYsmallX!=smallXsmallY):
+	E.append((smallYsmallX))
+
+     	E.append((smallXsmallY))
+
+
+     yTo=yTop
+     pathIndex=pathIndex+1
+     while (yTo>=0):
+     	path[pathIndex]=list2[yTo][2]
+     	pathIndex=pathIndex+1
+	yTo=yTo-1
+
+
+
+     print E[0:len(E)]
+     print vertexList[0:len(vertexList)]
+     print path[0:len(path)]     
+
+
+
+
+
+
 
 # there will be four variables namely: xTop, xBottom, yTop, and yBottom that will be used to track current index from top and bottom in the two sorted lists
 # There will be a list E that holds current connected edge list in contiguous order
