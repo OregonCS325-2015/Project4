@@ -117,9 +117,6 @@ def sort_coordinates(a, v):
 #create vertex tracking list
 #create path tracking list
 def algorithm (l):
-     size=len(l)
-     print("\n")
-     print ("size: %d" %size)
      list1=sort_coordinates(l,0)
      list2=sort_coordinates(l,1)
      xTop=0
@@ -139,18 +136,12 @@ def algorithm (l):
 	path[pathIndex]=list1[xTop][2]
 	pathIndex=pathIndex+1
 	path[pathIndex]=list1[xTop+1][2]
-#	pathIndex=pathIndex+1
-
-#	E[i]=list1[xTop]
-#	E[i+1]=list1[xTop+1]
 	if (vertexList[list1[xTop][2]-1]==0):
 		vertexList[list1[xTop][2]-1]=1
 	if (vertexList[list1[xTop+1][2]-1]==0):
 		vertexList[list1[xTop+1][2]-1]=1
 	xTop=xTop+1
 	
-#	print E[0:len(E)]
-
      smallXlargeY=list1[xTop]
      if (vertexList[list1[xTop][2]-1]==0):
 	vertexList[list1[xTop][2]-1]=1
