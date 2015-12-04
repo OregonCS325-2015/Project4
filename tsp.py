@@ -155,8 +155,7 @@ def add_remaining(E, V, sortedList, tpos, bpos):
                 # IS THIS THE EQUVALEENT OF PUTTING vp between E[i] and E[i+1] then... but this is happeneing outside of your for loop in the doc and now I'm befuddeled.
                 # IF it is the case the we only insert when the if stament is true then this can go above. in addtion it can be done then without setting the vars in the if stment. I followed the pseudo code and got lost
 
-                E.insert(idx,
-                         vp)  # CHECK THIS: it inserts before the point BUT IDEX IS NOT BEING SET OUT SIDE THE IF STMT
+                E.insert(idx,vp)  # CHECK THIS: it inserts before the point BUT IDEX IS NOT BEING SET OUT SIDE THE IF STMT
 
             tpos + 1  # increase teh check postion by 1
 
