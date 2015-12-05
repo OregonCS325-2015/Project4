@@ -205,13 +205,6 @@ def spiralTSP(px, py):
         py.pop(len(py)-1)       #remove from end of y
         px.remove(hiy)
 
-
-        # #reset
-        # hix = px[len(px)-1]
-        # hiy = py[len(py)-1]
-        # lowx = px[0]
-        # lowy = py[0]
-
         #setdump Top
         temp = []
         for i in range(0,len(px)):
@@ -235,13 +228,6 @@ def spiralTSP(px, py):
         py.remove(hix)      #remove
         px.pop(len(px)-1)   #remove from end of x
 
-
-        # #reset
-        # hix = px[len(px)-1]
-        # hiy = py[len(py)-1]
-        # lowx = px[0]
-        # lowy = py[0]
-
         #setdump RIGHT
         temp = []
         for i in range(0,len(px)):
@@ -264,11 +250,6 @@ def spiralTSP(px, py):
         px.remove(lowy)      #remove
         py.pop(0)   #remove from end of x
 
-        # hix = px[len(px)-1]
-        # hiy = py[len(py)-1]
-        # lowx = px[0]
-        # lowy = py[0]
-
         #setdump Bottom
         temp = []
         for i in range(0,len(px)):
@@ -284,11 +265,6 @@ def spiralTSP(px, py):
             path.append(temp[i])
             px.remove(temp[i])
 
-
-    # print(temp)
-    # print(px)
-    # print(py)
-    # print(path)
 
     if(len(px) > 1 ):
         spiralTSP(px, py)
@@ -332,5 +308,3 @@ for i in range (0, len(xsorted)):
 
 if len(dupCheck) == len(xsorted):
     print ('they are equal')
-#test = (999, 0 ,18)
-#print (xsorted)
