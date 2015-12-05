@@ -3,6 +3,8 @@ __author__ = 'Martha, Michael, and Robert'
 import math
 import heapq
 import sys
+import time
+import random
 
 
 # Reads the files
@@ -17,11 +19,11 @@ def read_file(name):
 
     for i in f:
         index, a, b = i.split()
-        x.append(int(a))
-        y.append(int(b))
+        #x.append(int(a))
+        #y.append(int(b))
         z.append((int(a), int(b), int(index)))
 
-    return x, y, z
+    return z
 
 
 # takes two lists one of x coordinates one of y, calculates distances between each point
@@ -67,15 +69,17 @@ def calc_distance_point(crd, i, j):
 # @param p1 p2 two points  = with an x and y coordt
 # @return one distance to three decimals
 def calc_distance(p1, p2):
-    """
-    :rtype : float
-    """
+    # """
+    # :rtype : float
+    # """
     # abs value because we don't want negative distances
     xdis = abs(p1[0] - p2[0])
     ydis = abs(p1[1] - p2[1])
 
     # dat hypotenuse - 3 figures
-    dis = "%.3f" % math.sqrt(math.pow(xdis, 2) + math.pow(ydis, 2))
+    #dis = "%.3f" % math.sqrt(math.pow(xdis, 2) + math.pow(ydis, 2))
+    dis = int( math.sqrt(math.pow(xdis, 2) + math.pow(ydis, 2)))
+
     return dis
 
 
@@ -112,128 +116,125 @@ def sort_coordinates(a, v):
 
     return a
 
-#Create outer cycle
-#create edge list tuple
-#create vertex tracking list
-#create path tracking list
-def algorithm (l):
-     list1=sort_coordinates(l,0)
-     list2=sort_coordinates(l,1)
-     xTop=0
-     xBottom=size-1
-     yTop=0
-     yBottom=size-1
-     
-     vertexList=[0]*size
-     path=[0]*size 
-     pathIndex=0
-     smallXsmallY=list1[xTop]
-     E = []
-     
-     while (list1[xTop][0]==list1[xTop+1][0]):
-	E.append((int(list1[xTop][0]), int(list1[xTop][1]), int(list1[xTop][2])))
-	E.append((int(list1[xTop+1][0]), int(list1[xTop+1][1]), int(list1[xTop+1][2])))
-	path[pathIndex]=list1[xTop][2]
-	pathIndex=pathIndex+1
-	path[pathIndex]=list1[xTop+1][2]
-	if (vertexList[list1[xTop][2]-1]==0):
-		vertexList[list1[xTop][2]-1]=1
-	if (vertexList[list1[xTop+1][2]-1]==0):
-		vertexList[list1[xTop+1][2]-1]=1
-	xTop=xTop+1
-	
-     smallXlargeY=list1[xTop]
-     if (vertexList[list1[xTop][2]-1]==0):
-	vertexList[list1[xTop][2]-1]=1
+# #Create outer cycle
+# #create edge list tuple
+# #create vertex tracking list
+# #create path tracking list
+def algorithm(l):
 
+    size = len(l)
 
-     largeYlargeX=list2[yBottom]     
-     while (list2[yBottom][1]==list2[yBottom-1][1]):
-	E.append((int(list2[yBottom][0]), int(list2[yBottom][1]), int(list2[yBottom][2])))
-	E.append((int(list2[yBottom-1][0]), int(list2[yBottom-1][1]), int(list2[yBottom-1][2])))
-	if (vertexList[list2[yBottom][2]-1]==0):
-		vertexList[list2[yBottom][2]-1]=1
-	if (vertexList[list2[yBottom-1][2]-1]==0):
-		vertexList[list2[yBottom-1][2]-1]=1
-	yBottom=yBottom-1
-     largeYsmallX=list2[yBottom+1]
+    list1 = sort_coordinates(l, 0)
+    list2 = sort_coordinates(l, 1)
+    xTop = 0
+    xBottom = size - 1
+    yTop = 0
+    yBottom = size - 1
 
-     if (smallXlargeY!=largeYsmallX):
-	E.append((int(list1[xTop][0]), int(list1[xTop][1]), int(list1[xTop][2])))
+    vertexList = [0] * size
+    path = [0] * size
+    pathIndex = 0
+    smallXsmallY = list1[xTop]
+    E = []
 
-     	E.append((int(list2[yBottom][0]), int(list2[yBottom][1]), int(list2[yBottom][2])))
-     yBot=yBottom
-     pathIndex=pathIndex+1
-     while (yBot<size):
-     	path[pathIndex]=list2[yBot][2]
-     	pathIndex=pathIndex+1
-	yBot=yBot+1
+    while (list1[xTop][0] == list1[xTop + 1][0]):
+        E.append((int(list1[xTop][0]), int(list1[xTop][1]), int(list1[xTop][2])))
+        E.append((int(list1[xTop + 1][0]), int(list1[xTop + 1][1]), int(list1[xTop + 1][2])))
+        path[pathIndex] = list1[xTop][2]
+        pathIndex = pathIndex + 1
+        path[pathIndex] = list1[xTop + 1][2]
+        if (vertexList[list1[xTop][2] - 1] == 0):
+            vertexList[list1[xTop][2] - 1] = 1
+        if (vertexList[list1[xTop + 1][2] - 1] == 0):
+            vertexList[list1[xTop + 1][2] - 1] = 1
+        xTop = xTop + 1
 
+    smallXlargeY = list1[xTop]
+    if (vertexList[list1[xTop][2] - 1] == 0):
+        vertexList[list1[xTop][2] - 1] = 1
 
+    largeYlargeX = list2[yBottom]
+    while (list2[yBottom][1] == list2[yBottom - 1][1]):
+        E.append((int(list2[yBottom][0]), int(list2[yBottom][1]), int(list2[yBottom][2])))
+        E.append((int(list2[yBottom - 1][0]), int(list2[yBottom - 1][1]), int(list2[yBottom - 1][2])))
+        if (vertexList[list2[yBottom][2] - 1] == 0):
+            vertexList[list2[yBottom][2] - 1] = 1
+        if (vertexList[list2[yBottom - 1][2] - 1] == 0):
+            vertexList[list2[yBottom - 1][2] - 1] = 1
+        yBottom = yBottom - 1
+    largeYsmallX = list2[yBottom + 1]
 
-     largeXlargeY=list1[xBottom]     
-     while (list1[xBottom][0]==list1[xBottom-1][0]):
-	E.append((int(list1[xBottom][0]), int(list1[xBottom][1]), int(list1[xBottom][2])))
-	E.append((int(list1[xBottom-1][0]), int(list1[xBottom-1][1]), int(list1[xBottom-1][2])))
-	if (vertexList[list1[xBottom][2]-1]==0):
-		vertexList[list1[xBottom][2]-1]=1
-	if (vertexList[list1[xBottom-1][2]-1]==0):
-		vertexList[list1[xBottom-1][2]-1]=1
-	
-	path[pathIndex]=list1[xBottom][2]
-	pathIndex=pathIndex+1
-	path[pathIndex]=list1[xBottom-1][2]
-	xBottom=xBottom-1
+    if (smallXlargeY != largeYsmallX):
+        E.append((int(list1[xTop][0]), int(list1[xTop][1]), int(list1[xTop][2])))
 
+        E.append((int(list2[yBottom][0]), int(list2[yBottom][1]), int(list2[yBottom][2])))
+    yBot = yBottom
+    pathIndex = pathIndex + 1
+    while (yBot < size):
+        path[pathIndex] = list2[yBot][2]
+        pathIndex = pathIndex + 1
+        yBot = yBot + 1
 
-     largeXsmallY=list1[xBottom]
+    largeXlargeY = list1[xBottom]
+    while (list1[xBottom][0] == list1[xBottom - 1][0]):
+        E.append((int(list1[xBottom][0]), int(list1[xBottom][1]), int(list1[xBottom][2])))
+        E.append((int(list1[xBottom - 1][0]), int(list1[xBottom - 1][1]), int(list1[xBottom - 1][2])))
+        if (vertexList[list1[xBottom][2] - 1] == 0):
+            vertexList[list1[xBottom][2] - 1] = 1
+        if (vertexList[list1[xBottom - 1][2] - 1] == 0):
+            vertexList[list1[xBottom - 1][2] - 1] = 1
 
-     if (largeXlargeY!=largeYlargeX):
-	E.append((largeYlargeX))
+        path[pathIndex] = list1[xBottom][2]
+        pathIndex = pathIndex + 1
+        path[pathIndex] = list1[xBottom - 1][2]
+        xBottom = xBottom - 1
 
-     	E.append((largeXlargeY))
+    largeXsmallY = list1[xBottom]
 
+    if (largeXlargeY != largeYlargeX):
+        E.append((largeYlargeX))
 
+        E.append((largeXlargeY))
 
-     smallYsmallX=list2[yTop]
-    
-     while (list2[yTop][1]==list2[yTop+1][1]):
-	E.append((int(list2[yTop][0]), int(list2[yTop][1]), int(list2[yTop][2])))
-	E.append((int(list2[yTop+1][0]), int(list2[yTop+1][1]), int(list2[yTop+1][2])))
+    smallYsmallX = list2[yTop]
 
-	if (vertexList[list2[yTop][2]-1]==0):
-		vertexList[list2[yTop][2]-1]=1
-	if (vertexList[list2[yTop+1][2]-1]==0):
-		vertexList[list2[yTop+1][2]-1]=1
-	yTop=yTop+1
-	
-     smallYlargeX=list2[yTop]
-     if (vertexList[list2[yTop][2]-1]==0):
-	vertexList[list2[yTop][2]-1]=1
+    while (list2[yTop][1] == list2[yTop + 1][1]):
+        E.append((int(list2[yTop][0]), int(list2[yTop][1]), int(list2[yTop][2])))
+        E.append((int(list2[yTop + 1][0]), int(list2[yTop + 1][1]), int(list2[yTop + 1][2])))
 
-     if (largeXsmallY!=smallYlargeX):
-	E.append((largeXsmallY))
+        if (vertexList[list2[yTop][2] - 1] == 0):
+            vertexList[list2[yTop][2] - 1] = 1
+        if (vertexList[list2[yTop + 1][2] - 1] == 0):
+            vertexList[list2[yTop + 1][2] - 1] = 1
+        yTop = yTop + 1
 
-     	E.append((smallYlargeX))
+    smallYlargeX = list2[yTop]
+    if (vertexList[list2[yTop][2] - 1] == 0):
+        vertexList[list2[yTop][2] - 1] = 1
 
-     if (smallYsmallX!=smallXsmallY):
-	E.append((smallYsmallX))
+    if (largeXsmallY != smallYlargeX):
+        E.append((largeXsmallY))
 
-     	E.append((smallXsmallY))
+        E.append((smallYlargeX))
 
+    if (smallYsmallX != smallXsmallY):
+        E.append((smallYsmallX))
 
-     yTo=yTop
-     pathIndex=pathIndex+1
-     while (yTo>=0):
-     	path[pathIndex]=list2[yTo][2]
-     	pathIndex=pathIndex+1
-	yTo=yTo-1
+        E.append((smallXsmallY))
 
+    yTo = yTop
+    pathIndex = pathIndex + 1
+    while (yTo >= 0):
+        path[pathIndex] = list2[yTo][2]
+        pathIndex = pathIndex + 1
+        yTo = yTo - 1
 
-
-     print E[0:len(E)]
-     print vertexList[0:len(vertexList)]
-     print path[0:len(path)]     
+    print
+    E[0:len(E)]
+    print
+    vertexList[0:len(vertexList)]
+    print
+    path[0:len(path)]
 
 
 
@@ -290,10 +291,213 @@ def add_remaining(E, V, sortedList, tpos, bpos):
         tpos += 1  # increase the check position by 1
 
 
-x, y, z = read_file('tsp_test_cases/test-input-2.txt')
+def calc_minDistance(list, startP):
+    minDist = 100000
+    pointIndex = 0  # initilaize
+
+    if startP > 0:
+
+        for i in range(0, startP - 1):
+            prevMinDist = minDist
+            # calculate the minimum distance
+            minDist = min(minDist, calc_distance(list[startP], list[i + 1]))
+            if minDist < prevMinDist:
+                pointIndex = i + 1
+
+    # check from stp to end
+    for i in range(startP, len(list) - startP - 1):
+        prevMinDist = minDist
+        minDist = min(minDist, calc_distance(list[startP], list[i + 1]))
+        if minDist < prevMinDist:
+            pointIndex = i + 1
+
+    return minDist, pointIndex
+
+
+def genStartPoint(sortedList):
+
+    pointofreturn = ()
+    smallD = 99999999
+    for i in range(0, 10):
+
+        start_index = random.randrange (0, len(sortedList))
+        prevmin = smallD
+        mini, point = calc_minDistance(sortedList, start_index)
+        smallD = min (smallD, mini)
+        #store this point!
+        if smallD < prevmin:
+            pointofreturn = [mini, point, start_index]
+
+
+    return pointofreturn
+
+zlist = read_file('tsp_test_cases/test-input-robtest.txt')
 
 test = [(0, 50, 0), (0, 40, 1), (0, 10, 2)]
-pyz = sort_coordinates(test, 0)
-print(pyz)
+py = sort_coordinates(zlist, 1)
+px = sort_coordinates(zlist, 0)
 
-print(calc_distance(test[0], test[1]))
+print(px)
+print(py)
+path = []
+def shit():
+
+    ###LEFT CYCLE
+    if(len(px) != 0 or px != ''):
+        path.append(px[0])     #add to path
+        py.remove(px[0]) #remove same from y
+        px.pop(0)           #remove it
+
+
+        #reset
+        hix = px[len(px)-1]
+        hiy = py[len(py)-1]
+        lowx = px[0]
+        lowy = py[0]
+
+        #setdump Left
+        temp = []
+        for i in range(0,len(px)):
+            if (px[i][0] < hiy[0]) & (px[i][1] > lowx[1]):
+                temp.append(px[i])
+                py.remove(px[i])
+
+        #ELSE sort the temp on the y
+        temp = sort_coordinates(temp, 1)
+
+        #dump it in the th path in order of increasing y
+        for i in range(0,len(temp)):
+            path.append(temp[i])
+            px.remove(temp[i])
+
+    #TOPCYCLE
+    #now add hiy
+    if(len(px) != 0 or px != ''):
+        path.append(hiy) #add to path
+        py.pop(len(py)-1)       #remove from end of y
+        px.remove(hiy)
+
+
+        # #reset
+        # hix = px[len(px)-1]
+        # hiy = py[len(py)-1]
+        # lowx = px[0]
+        # lowy = py[0]
+
+        #setdump Top
+        temp = []
+        for i in range(0,len(px)):
+            if (px[i][0] > hiy[0]) & (px[i][1] > hix[1]):
+                temp.append(px[i])
+                py.remove(px[i])
+
+        #ELSE sort the temp on the x
+        temp = sort_coordinates(temp, 0)
+
+        #dump it in the th path in order of increasing y
+        for i in range(0,len(temp)):
+            path.append(temp[i])
+            px.remove(temp[i])
+
+
+    ###RIGHT CYCLE
+    #now add hix
+    if(len(px) != 0 or px != ''):
+        path.append(hix)       #add to path
+        py.remove(hix)      #remove
+        px.pop(len(px)-1)   #remove from end of x
+
+
+        # #reset
+        # hix = px[len(px)-1]
+        # hiy = py[len(py)-1]
+        # lowx = px[0]
+        # lowy = py[0]
+
+        #setdump RIGHT
+        temp = []
+        for i in range(0,len(px)):
+            if (px[i][0] > lowy[0]) & (px[i][1] < hix[1]):
+                temp.append(px[i])
+                py.remove(px[i])
+
+        #ELSE sort the temp on the x
+        temp = sort_coordinates(temp, 1)
+
+        #dump it in the th path in order of decreasing y
+        for i in range(len(temp)-1, -1, -1):
+            path.append(temp[i])
+            px.remove(temp[i])
+
+    #BOTTOM CYCLE
+    #now add lowy
+    if(len(px) != 0 or px != ''):
+        path.append(lowy)       #add to path
+        py.pop(0)   #remove from end of x
+        px.remove(lowy)      #remove
+
+        # hix = px[len(px)-1]
+        # hiy = py[len(py)-1]
+        # lowx = px[0]
+        # lowy = py[0]
+
+        #setdump Bottom
+        temp = []
+        for i in range(0,len(px)):
+            if (px[i][0] < lowy[0]) & (px[i][1] < lowx[1]):
+                temp.append(px[i])
+                py.remove(px[i])
+
+        #ELSE sort the temp on the x
+        temp = sort_coordinates(temp, 0)
+
+        #dump it in the th path in order of decreasing x
+        for i in range(len(temp)-1, -1, -1):
+            path.append(temp[i])
+            px.remove(temp[i])
+
+
+    print(temp)
+    print(px)
+    print(py)
+    print(path)
+
+    if(len(px) >0 or px != ''):
+        shit()
+    else:
+        if(len(py)>0):
+            for i in range(0,len(py)):
+                path.append(py[i])
+        print('have a nice day')
+
+shit()
+
+
+#HELD -KARP
+##print(calc_distance(zlist[0], zlist[1]))
+# #print (calc_minDistance(pyx, 0))
+# path = set()
+# dist = []
+# for i in range(0, 20):
+#     a = genStartPoint(zlist)
+#
+#     tup = (a[1], a[2])
+#     zlist.pop(a[2])
+#     zlist.pop(a[1])
+#     path.add(tup)
+#     dist.append(a[0])
+#
+#     #path.add(a)
+#     #b = genStartPoint(zlist)
+#
+#     print(a)
+#
+# print(path)
+# print(dist)
+#
+# print(len(zlist))
+# print(zlist[1366])
+# print(zlist[1258])
+#
+# a = calc_minDistance(zlist, 1258)
+# print (a)
