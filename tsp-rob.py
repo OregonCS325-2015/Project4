@@ -150,7 +150,7 @@ def sort_coordinates(a, v):
 #
 #     return pointofreturn
 
-zlist = read_file('tsp_test_cases/test-input-7.txt')
+zlist = read_file('tsp_test_cases/test-input-1.txt')
 
 test = [(0, 50, 0), (0, 40, 1), (0, 10, 2)]
 ysorted = sort_coordinates(zlist, 1)
@@ -296,8 +296,8 @@ print(duration)
 # and time it took
 print(path)
 distance = 0
-for i in range(0,len(path)):
-    distance += path[i][2]
+for i in range(0,len(path)-1):
+    distance += calc_distance(path[i],path[i+1])
 
 print(distance)
 
