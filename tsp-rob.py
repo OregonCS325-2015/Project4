@@ -171,7 +171,7 @@ path = []
 def spiralTSP(px, py):
 
     ###LEFT CYCLE
-    if(len(px) != 0 or px != ''):
+    if(len(px) != 0 and px != ''):
         path.append(px[0])     #add to path
         py.remove(px[0]) #remove same from y
         px.pop(0)           #remove it
@@ -200,7 +200,7 @@ def spiralTSP(px, py):
 
     #TOPCYCLE
     #now add hiy
-    if(len(px) != 0 or px != ''):
+    if(len(px) != 0 and px != ''):
         path.append(hiy) #add to path
         py.pop(len(py)-1)       #remove from end of y
         px.remove(hiy)
@@ -230,7 +230,7 @@ def spiralTSP(px, py):
 
     ###RIGHT CYCLE
     #now add hix
-    if(len(px) != 0 or px != ''):
+    if(len(px) != 0 and px != ''):
         path.append(hix)       #add to path
         py.remove(hix)      #remove
         px.pop(len(px)-1)   #remove from end of x
@@ -259,7 +259,7 @@ def spiralTSP(px, py):
 
     #BOTTOM CYCLE
     #now add lowy
-    if(len(px) != 0 or px != ''):
+    if(len(px) != 0 and px != ''):
         path.append(lowy)       #add to path
         px.remove(lowy)      #remove
         py.pop(0)   #remove from end of x
