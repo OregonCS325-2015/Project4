@@ -150,12 +150,6 @@ def sort_coordinates(a, v):
 #
 #     return pointofreturn
 
-zlist = read_file('tsp_test_cases/test-input-1.txt')
-
-test = [(0, 50, 0), (0, 40, 1), (0, 10, 2)]
-ysorted = sort_coordinates(zlist, 1)
-xsorted = sort_coordinates(zlist, 0)
-
 #print(px)
 #print(py)
 
@@ -173,7 +167,8 @@ def spiralTSP(px, py):
     ###LEFT CYCLE
     if(len(px) != 0 and px != ''):
         path.append(px[0])     #add to path
-        py.remove(px[0]) #remove same from y
+        if (py.count(px[0])):  #TODO NOT SURE ABOUT THIS
+            py.remove(px[0]) #remove same from y
         px.pop(0)           #remove it
 
 
@@ -186,7 +181,7 @@ def spiralTSP(px, py):
         #setdump Left
         temp = []
         for i in range(0,len(px)):
-            if (px[i][0] < hiy[0]) & (px[i][1] > lowx[1]):
+            if (px[i][0] <= hiy[0]) & (px[i][1] >= lowx[1]):
                 temp.append(px[i])
                 py.remove(px[i])
 
@@ -203,19 +198,20 @@ def spiralTSP(px, py):
     if(len(px) != 0 and px != ''):
         path.append(hiy) #add to path
         py.pop(len(py)-1)       #remove from end of y
-        px.remove(hiy)
+        if (px.count(hiy)):     #TODO NOT SURE ABOUT THIS
+            px.remove(hiy)
 
         #setdump Top
         temp = []
         for i in range(0,len(px)):
-            if (px[i][0] > hiy[0]) & (px[i][1] > hix[1]):
+            if (px[i][0] >= hiy[0]) & (px[i][1] >= hix[1]):
                 temp.append(px[i])
                 py.remove(px[i])
 
         #ELSE sort the temp on the x
         temp = sort_coordinates(temp, 0)
 
-        #dump it in the th path in order of increasing y
+        #dump it in the th path in order of increasing x
         for i in range(0,len(temp)):
             path.append(temp[i])
             px.remove(temp[i])
@@ -225,13 +221,14 @@ def spiralTSP(px, py):
     #now add hix
     if(len(px) != 0 and px != ''):
         path.append(hix)       #add to path
-        py.remove(hix)      #remove
+        if (py.count(hix)):     #TODO NOT SURE ABOUT THIS
+            py.remove(hix)      #remove
         px.pop(len(px)-1)   #remove from end of x
 
         #setdump RIGHT
         temp = []
         for i in range(0,len(px)):
-            if (px[i][0] > lowy[0]) & (px[i][1] < hix[1]):
+            if (px[i][0] >= lowy[0]) & (px[i][1] <= hix[1]):
                 temp.append(px[i])
                 py.remove(px[i])
 
@@ -247,13 +244,14 @@ def spiralTSP(px, py):
     #now add lowy
     if(len(px) != 0 and px != ''):
         path.append(lowy)       #add to path
-        px.remove(lowy)      #remove
+        if (px.count(lowy)):
+            px.remove(lowy)      #remove
         py.pop(0)   #remove from end of x
 
         #setdump Bottom
         temp = []
         for i in range(0,len(px)):
-            if (px[i][0] < lowy[0]) & (px[i][1] < lowx[1]):
+            if (px[i][0] <= lowy[0]) & (px[i][1] <= lowx[1]):
                 temp.append(px[i])
                 py.remove(px[i])
 
@@ -279,6 +277,11 @@ def spiralTSP(px, py):
     else:
         print('have a nice day')
 
+zlist = read_file('tsp_test_cases/test-input-3.txt')
+
+test = [(0, 50, 0), (0, 40, 1), (0, 10, 2)]
+ysorted = sort_coordinates(zlist, 1)
+xsorted = sort_coordinates(zlist, 0)
 
 #now call dat...
 start = time.time()
