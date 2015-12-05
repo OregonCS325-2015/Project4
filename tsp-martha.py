@@ -15,7 +15,7 @@ def read_file(name):
 
     return x, y, z
 
-x, y, z = read_file('sample.txt')
+x, y, z = read_file('tsp_example_4.txt')
 #print x[0:len(x)]
 #print y[0:len(y)]
 #print z[0:len(z)]
@@ -199,7 +199,8 @@ def algorithm (l):
      yTop=yTop+1
      yBottom=yBottom-1
     
-     for i in range (0, size):
+     #for i in range (0, size):
+     while xTop<=xBottom:
         addition = sys.maxsize
         if xTop<=xBottom:
 	     #print vertexList[list1[xTop][2]-1]
@@ -219,17 +220,27 @@ def algorithm (l):
 			v1=E[i]
 			v2=E[i+1]
 		#	print ("additon: %d" %addition)
-		#	print newV
-		#	print v1
-		#	print v2
+#			print "\n"
+#			print newV
+#			print v1
+#			print v2
 			idx=i+1
 		     i=i+2
-		E.append((v2))
+#		print "\n"
+#		print"ONE"
+#		print newV
+#		print v1
+#		print v2
+
+
+		E.append((E[idx]))
 		E[idx]=newV
 		E.append((newV))
 		cost=cost+addition
 	     xTop=xTop+1	
-	     	
+	     #print E[0:len(E)]
+
+     	
 	addition=sys.maxsize
 	while list1[xTop][0]==list1[xTop-1][0]:
 	  if xTop<=xBottom:
@@ -250,18 +261,28 @@ def algorithm (l):
 			v1=E[i]
 			v2=E[i+1]
 #			print ("additon: %d" %addition)
-#			print newV
+#			print "\n"
+ #			print newV
 #			print v1
 #			print v2
 
 			idx=i+1
 		     i=i+2
-		E.append((v2))
+#		print "\n"
+#		print "TWO"
+#		print newV
+#		print v1
+#		print v2
+
+
+		E.append((E[idx]))
 		E[idx]=newV
 		E.append((newV))
 		cost=cost+addition
 	     xTop=xTop+1	
-	
+	     #print E[0:len(E)]
+
+
 
 
         addition = sys.maxsize
@@ -289,18 +310,34 @@ def algorithm (l):
 			v1=E[i]
 			v2=E[i+1]
 #			print ("additon: %d" %addition)
+#			print "\n"
 #			print newV
 #			print v1
 #			print v2
 
 			idx=i+1
 		     i=i+2
-		E.append((v2))
+		   
+#		print "\n"
+#		print "THREE"
+#		print newV
+#		print v1
+#		print v2
+
+
+		E.append((E[idx]))
 		E[idx]=newV
 		E.append((newV))
 		cost=cost+addition
 	     xBottom=xBottom-1
-	
+#	     print E[idx-1]
+#	     print E[idx]
+#	     print ("idxThree: %d" %idx)	
+#	     print E[0:len(E)]
+
+
+
+
 	while list1[xBottom][0]==list1[xBottom+1][0]:
           if xBottom>=xTop:
 	     if vertexList[list1[xBottom][2]]==0:
@@ -320,17 +357,30 @@ def algorithm (l):
 			v1=E[i]
 			v2=E[i+1]
 #			print ("additon: %d" %addition)
+#			print "\n"
 #			print newV
 #			print v1
 #			print v2
 
 			idx=i+1
 		     i=i+2
-		E.append((v2))
+		    
+#		print "\n"
+#		print "FOUR"
+#		print newV
+#		print v1
+#		print v2
+		
+#		print E[0:len(E)]
+#		print E[idx]
+		E.append((E[idx]))
 		E[idx]=newV
 		E.append((newV))
+#		print ("idxFour: %d" %idx)
 		cost=cost+addition
 	     xBottom=xBottom-1	
+#	     print E[0:len(E)]
+
 
 
 
@@ -355,18 +405,29 @@ def algorithm (l):
 			v1=E[i]
 			v2=E[i+1]
 #			print ("additon: %d" %addition)
+#			print "\n"
 #			print newV
 #			print v1
 #			print v2
 
 			idx=i+1
 		     i=i+2
-		E.append((v2))
+		     
+#		print "\n"
+#		print "FIVE"
+#		print newV
+#		print v1
+#		print v2
+
+
+		E.append((E[idx]))
 		E[idx]=newV
 		E.append((newV))
 		cost=cost+addition
 	     yTop=yTop+1
-	
+	     #print E[0:len(E)]
+
+
 	addition=sys.maxsize
         while list2[yTop][1]==list2[yTop-1][1]:
          if yTop<=yBottom:
@@ -388,17 +449,28 @@ def algorithm (l):
 			v1=E[i]
 			v2=E[i+1]
 #			print ("additon: %d" %addition)
+#			print "\n"
 #			print newV
 #			print v1
 #			print v2
 
 			idx=i+1
 		     i=i+2
-		E.append((v2))
+		     
+#		print "\n"
+#		print "SIX"
+#		print newV
+#		print v1
+#		print v2
+
+
+		E.append((E[idx]))
 		E[idx]=newV
 		E.append((newV))
 		cost=cost+addition
 	     yTop=yTop+1	
+	     #print E[0:len(E)]
+
 
 
 
@@ -424,18 +496,29 @@ def algorithm (l):
 			v1=E[i]
 			v2=E[i+1]
 #			print ("additon: %d" %addition)
+#			print "\n"
 #			print newV
 #			print v1
 #			print v2
 
 			idx=i+1
 		     i=i+2
-		E.append((v2))
+#		     
+#		print "\n"
+#		print "SEVEN"
+#		print newV
+#		print v1
+#		print v2
+		
+
+		E.append((E[idx]))
 		E[idx]=newV
 		E.append((newV))
 		cost=cost+addition
 	     yBottom=yBottom-1
-	
+	     #print E[0:len(E)]
+
+
 	addition=sys.maxsize
 	while list2[yBottom][1]==list2[yBottom+1][1]:
           if yBottom>=yTop:
@@ -456,17 +539,28 @@ def algorithm (l):
 			v1=E[i]
 			v2=E[i+1]
 #			print ("additon: %d" %addition)
+#			print "\n"
 #			print newV
 #			print v1
 #			print v2
 
 			idx=i+1
 		     i=i+2
-		E.append((v2))
+#		print "\n"
+#		print "EIGHT"
+#		print newV
+#		print v1
+#		print v2
+
+
+		E.append((E[idx]))
 		E[idx]=newV
 		E.append((newV))
 		cost=cost+addition
 	     yBottom=yBottom-1	
+	     #print E[0:len(E)]
+
+
      print  cost
     
      m=[[0]*(2) for x in xrange(size)]
@@ -496,7 +590,7 @@ def algorithm (l):
 	     i=m[i][0]
 	     print (q)
 	k=q
-     print len(m)     
+#     print len(m)     
 #     print ("\n")
 #     print E[0:len(E)]
 #     print ("Length of E: %d" %len(E))
