@@ -1,26 +1,46 @@
 import sys
 import math
 import time
+import getopt
+
+#adapted from http://www.tutorialspoint.com/python/python_command_line_arguments.htm
+def cmd_line_io(argv):
+	inputfile = ''
+	outputfile = ''
+	try:
+		opts, args = getopt.getopt(argv,"hi:o:",["ifile=", "ofile="])
+	except getopt.GetoptError:
+		print ('p4.py -i <inputfile> -o <outputfile>')
+		sys.exit(2)
+	for opt, arg in opts:
+		#help
+		if opt == '-h':
+			print ('p4.py -i <inputfile> ')
+			sys.exit()
+
+		#input file
+		elif opt in ("-i", "--ifile"):
+			inputfile = arg
+		elif opt in ("-o", "--ofile"):
+			outputfile = arg
+
+	return inputfile, outputfile
+
+	print ('Input file is "', inputfile)
+	print ('Output file is "', outputfile)
 
 
 def read_file(name):
-    x = []  # the values
-    y = []
+
     z = []
     f = open(name, 'r')
 
     for i in f:
         index, a, b = i.split()
-        x.append(int(a))
-        y.append(int(b))
         z.append((int(a), int(b), int(index)))
 
     return z
 
-
-# print x[0:len(x)]
-# print y[0:len(y)]
-# print z[0:len(z)]
 
 def calc_distance(p1, p2):
     xdis = abs(p1[0] - p2[0])
@@ -28,7 +48,7 @@ def calc_distance(p1, p2):
 
     # dat hypotenuse - 3 figures
 	# dis = "%.3f" % math.sqrt(math.pow(xdis, 2) + math.pow(ydis, 2))
-    dis = int(math.sqrt(math.pow(xdis, 2) + math.pow(ydis, 2)))
+    dis = float(math.sqrt(math.pow(xdis, 2) + math.pow(ydis, 2)))
 
     return dis
 
@@ -52,23 +72,7 @@ def sort_coordinates(a, v):
                 a[i - 1], a[i] = g, f
 
     return a
-	# looks over the list swapping if the ys are larger
 
-
-#    for i in range(0,len(a)-1):
-#        if (a[i][v] == a[i+1][v]) & (a[i][l] > a[i+1][l]):
-# swap
-#            f,g = a[i], a[i+1]
-#	    print a[i]
-#            a[i], a[i+1]= g,f
-#	    print a[i]
-
-#    return a
-
-# newZ = []
-# newZ = sort_coordinates (z, 0)
-# print newZ[0:len(newZ)]
-# print newZ[1][3]
 
 def algorithm(l):
     size = len(l)
@@ -185,7 +189,7 @@ def algorithm(l):
         length = calc_distance(E[i], E[i + 1])
         # 	print E[i][2]
         # 	print E[i+1][2]
-        cost = cost + length
+        cost = float(cost + length)
         #	print ("cost: %d" %cost)
         i = i + 2
 
@@ -232,7 +236,7 @@ def algorithm(l):
                 E.append((E[idx]))
                 E[idx] = newV
                 E.append((newV))
-                cost = cost + addition
+                cost = float(cost + addition)
             xTop = xTop + 1
         # print E[0:len(E)]
 
@@ -274,7 +278,7 @@ def algorithm(l):
                     E.append((E[idx]))
                     E[idx] = newV
                     E.append((newV))
-                    cost = cost + addition
+                    cost = float(cost + addition)
                 xTop = xTop + 1
             # print E[0:len(E)]
 
@@ -321,7 +325,7 @@ def algorithm(l):
                 E.append((E[idx]))
                 E[idx] = newV
                 E.append((newV))
-                cost = cost + addition
+                cost = float(cost + addition)
             xBottom = xBottom - 1
         # print E[idx-1]
         #	     print E[idx]
@@ -370,7 +374,7 @@ def algorithm(l):
                     E[idx] = newV
                     E.append((newV))
                     #		print ("idxFour: %d" %idx)
-                    cost = cost + addition
+                    cost = float(cost + addition)
                 xBottom = xBottom - 1
             #	     print E[0:len(E)]
 
@@ -413,7 +417,7 @@ def algorithm(l):
                 E.append((E[idx]))
                 E[idx] = newV
                 E.append((newV))
-                cost = cost + addition
+                cost = float(cost + addition)
             yTop = yTop + 1
         # print E[0:len(E)]
 
@@ -457,7 +461,7 @@ def algorithm(l):
                     E.append((E[idx]))
                     E[idx] = newV
                     E.append((newV))
-                    cost = cost + addition
+                    cost = float(cost + addition)
                 yTop = yTop + 1
             # print E[0:len(E)]
 
@@ -501,7 +505,7 @@ def algorithm(l):
                 E.append((E[idx]))
                 E[idx] = newV
                 E.append((newV))
-                cost = cost + addition
+                cost = float(cost + addition)
             yBottom = yBottom - 1
         # print E[0:len(E)]
 
@@ -543,7 +547,7 @@ def algorithm(l):
                     E.append((E[idx]))
                     E[idx] = newV
                     E.append((newV))
-                    cost = cost + addition
+                    cost = float(cost + addition)
                 yBottom = yBottom - 1
             # print E[0:len(E)]
     # return cost
@@ -599,22 +603,64 @@ def writeFile(name, contents, method='a'):
     f.close()
 
 
+if __name__ == "__main__":
+	(ifile, ofile) = cmd_line_io(sys.argv[1:])
+
+	if (ifile  != '') & (ofile != ''):
+		print ('Running...')
+
+		z = read_file(ifile)
+
+		start = time.time()
+		distance, path = algorithm(z)
+		stop = time.time()
+		duration = stop - start
+
+		pathstring = ''
+		count = 0
+		for i in range(0,len(path)):
+			pathstring += str(path[i]) +'\n'
+			count= count+1
+
+		resultsummary = 'FILE: %s  had points %i; Distance: %d; Time: %d \n'%(ifile, count, distance, duration)
+
+		writeFile(ofile, str(distance), method='a')
+		writeFile(ofile, str(pathstring), method='a')
+		writeFile('resultsumary.txt', resultsummary, method='a')
 
 
-filenames = ['tsp_example_1.txt', 'tsp_example_2.txt', 'test-input-1.txt', 'test-input-2.txt',
-             'test-input-3.txt', 'test-input-4.txt', 'test-input-5.txt', 'test-input-6.txt', 'test-input-7.txt']
 
-for i in range(0, 1):
-	curFile = filenames[i]
-	input = 'tsp_test_cases/' + curFile
-	output = 'tsp_results/' + curFile
+	elif(ifile  == '') & (ofile == ''):
+		print ('This will now cycle though all files we have')
 
-	z = read_file(input)
-	result = []
+		filenames = ['tsp_example_1.txt', 'tsp_example_2.txt','test-input-1.txt', 'test-input-2.txt',
+             'test-input-3.txt', 'test-input-4.txt', 'test-input-5.txt', 'test-input-6.txt', 'test-input-7.txt','tsp_example_3.txt']
 
-	start = time.time()
-	distance, path = algorithm(z)
-	stop = time.time()
-	duration = stop - start
-	writeFile(output, str(distance), method='a')
-	writeFile(output, str(path), method='a')
+		#for i in range(0, len(filenames)):
+		for i in range(0, len(filenames)):
+			curFile = filenames[i]
+			input = 'tsp_test_cases/' + curFile
+			output = 'tsp_results/' + curFile
+
+			z = read_file(input)
+			result = []
+
+			start = time.time()
+			distance, path = algorithm(z)
+			stop = time.time()
+			duration = stop - start
+
+			pathstring = ''
+			count = 0
+			for i in range(0,len(path)):
+				pathstring += str(path[i]) +'\n'
+				count= count+1
+
+			resultsummary = 'FILE: %s  had points %i; Distance: %d; Time: %f \n'%(curFile, count, distance, duration)
+
+			writeFile(output, str(distance), method='a')
+			writeFile(output, str(pathstring), method='a')
+			writeFile('tsp_results/resultsumary.txt', resultsummary, method='a')
+
+	else:
+		print ('Incorrect parameters provided try p4 -h')

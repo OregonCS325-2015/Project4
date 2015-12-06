@@ -1,20 +1,18 @@
-FILE: tsp_example_1.txt  had points 76; Distance: 87581; Time: 0 
+FILE: tsp_example_1.txt  had points 76; Distance: 87592; Time: 0.063042 
 
-FILE: tsp_example_2.txt  had points 280; Distance: 1939; Time: 0 
+FILE: tsp_example_2.txt  had points 280; Distance: 2157; Time: 0.943627 
 
-FILE: test-input-1.txt  had points 50; Distance: 5669; Time: 0 
+FILE: test-input-1.txt  had points 50; Distance: 5692; Time: 0.039021 
 
-FILE: test-input-2.txt  had points 100; Distance: 8353; Time: 0 
+FILE: test-input-2.txt  had points 100; Distance: 8399; Time: 0.140089 
 
-FILE: test-input-3.txt  had points 250; Distance: 13412; Time: 0 
+FILE: test-input-3.txt  had points 250; Distance: 13473; Time: 0.942629 
 
-FILE: test-input-4.txt  had points 500; Distance: 17191; Time: 3 
+FILE: test-input-4.txt  had points 500; Distance: 17754; Time: 2.790589 
 
-FILE: test-input-5.txt  had points 1000; Distance: 17436; Time: 12 
+FILE: test-input-5.txt  had points 1000; Distance: 18941; Time: 11.575694 
 
-FILE: test-input-6.txt  had points 2000; Distance: 16009; Time: 47 
+FILE: test-input-6.txt  had points 2000; Distance: 17548; Time: 46.268213 
 
-FILE: test-input-7.txt  had points 5000; Distance: 10566; Time: 296 
-
-FILE: tsp_example_3.txt  had points 15112; Distance: 1129458; Time: 2826 
+FILE: test-input-7.txt  had points 5000; Distance: 14885; Time: 285.298847 
 
