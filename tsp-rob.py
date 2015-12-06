@@ -109,7 +109,7 @@ def sort_coordinates(a, v):
 
     return a
 
-
+# #path[len(path)-1], points
 # def calc_minDistance(list, startP):
 #     minDist = 100000
 #     pointIndex = 0  # initilaize
@@ -127,11 +127,33 @@ def sort_coordinates(a, v):
 #     for i in range(startP, len(list) - startP - 1):
 #         prevMinDist = minDist
 #         minDist = min(minDist, calc_distance(list[startP], list[i + 1]))
-#         if minDist < prevMinDist:
+#         if minDist <= prevMinDist:
 #             pointIndex = i + 1
 #
-#     return minDist, pointIndex
+#     savedPoint = list[pointIndex]
+#     list.pop(pointIndex)
 #
+#     return savedPoint
+
+#path[len(path)-1], points
+def calc_minDistance(startP, L):
+    minDist = 100000
+    pointIndex = 0  # initilaize
+
+
+    # check from stp to end
+    for i in range(0, len(L)):
+        prevMinDist = minDist
+        minDist = min(minDist, calc_distance(startP, L[i]))
+        if minDist < prevMinDist:
+            pointIndex = i
+            savedPoint = L[pointIndex]
+            #L.pop(pointIndex)
+
+    return savedPoint
+
+
+
 #
 # def genStartPoint(sortedList):
 #
@@ -163,13 +185,12 @@ path = []
 
 
 def spiralTSP(px, py):
-
+    tolerance = 100
     ###LEFT CYCLE
     if(len(px) != 0 and px != ''):
-        path.append(px[0])     #add to path
-        if (py.count(px[0])):  #TODO NOT SURE ABOUT THIS
-            py.remove(px[0]) #remove same from y
-        px.pop(0)           #remove it
+        #path.append(px[0])     #add to path
+        #py.remove(px[0]) #remove same from y
+        #px.pop(0)           #remove it
 
 
         #reset
@@ -180,80 +201,186 @@ def spiralTSP(px, py):
 
         #setdump Left
         temp = []
+        # add the end of path
+        #temp.append(path[len(path)-1])
+
         for i in range(0,len(px)):
-            if (px[i][0] <= hiy[0]) & (px[i][1] >= lowx[1]):
+        #     if (px[i][0] >= py[len(py)-1][0]+tolerance):
+        #         break
+        # for j in range(0,i):
+        #     temp.append(px[j])
+
+            if ((px[i][0] <= py[len(py)-1][0]+tolerance) & (px[i][1] >= px[0][1])-tolerance):
                 temp.append(px[i])
-                py.remove(px[i])
+            #     #px.remove(px[i])
 
         #ELSE sort the temp on the y
-        temp = sort_coordinates(temp, 1)
+        temp = sort_coordinates(temp, 0)
 
         #dump it in the th path in order of increasing y
         for i in range(0,len(temp)):
             path.append(temp[i])
-            px.remove(temp[i])
+            px.pop(0)
+            py.remove(temp[i])
 
     #TOPCYCLE
     #now add hiy
     if(len(px) != 0 and px != ''):
-        path.append(hiy) #add to path
-        py.pop(len(py)-1)       #remove from end of y
-        if (px.count(hiy)):     #TODO NOT SURE ABOUT THIS
-            px.remove(hiy)
+        # path.append(py[len(py)-1]) #add to path
+        # px.remove(py[len(py)-1])
+        # py.pop(len(py)-1)       #remove from end of y
+
 
         #setdump Top
         temp = []
+        # add the end of path
+        #temp.append(path[len(path)-1])
+        #path.pop(len(path)-1)
+
+        # for i in range(0,len(px)):
+        #     if (px[i][1] >= px[len(py)-1][1]-tolerance):
+        #         break
+        # for j in range(0,i):
+        #     temp.append(py[j])
         for i in range(0,len(px)):
-            if (px[i][0] >= hiy[0]) & (px[i][1] >= hix[1]):
+            if (px[i][0] <= px[len(px)-1][0])& (px[i][1] >= px[len(px)-1][1]-tolerance):
                 temp.append(px[i])
-                py.remove(px[i])
+
 
         #ELSE sort the temp on the x
         temp = sort_coordinates(temp, 0)
-
+        #path.append(temp[0])
         #dump it in the th path in order of increasing x
-        for i in range(0,len(temp)):
+        for i in range(1,len(temp)):
             path.append(temp[i])
             px.remove(temp[i])
-
+            py.remove(temp[i])
 
     ###RIGHT CYCLE
-    #now add hix
     if(len(px) != 0 and px != ''):
-        path.append(hix)       #add to path
-        if (py.count(hix)):     #TODO NOT SURE ABOUT THIS
-            py.remove(hix)      #remove
-        px.pop(len(px)-1)   #remove from end of x
-
-        #setdump RIGHT
+        # path.append(px[len(px)-1])    #add to path
+        # py.remove(px[len(px)-1])      #remove
+        # px.pop(len(px)-1)           #remove from end of x
+        #add end of path back on incase we shuffel
         temp = []
+        # temp.append(path[len(path)-1])
+        # path.pop(len(path)-1)
+
         for i in range(0,len(px)):
-            if (px[i][0] >= lowy[0]) & (px[i][1] <= hix[1]):
-                temp.append(px[i])
-                py.remove(px[i])
+            if (px[i][0] >= py[0][0]-tolerance):
+                break
+        for j in range(0,i):
+            temp.append(px[j])
+        # #setdump RIGHT
+        # temp = []
+        # for i in range(0,len(px)):
+        #     if (px[i][0] >= py[0][0]) & (px[i][1] <= px[len(px)-1][1] ):
+        #         temp.append(px[i])
+        #         py.remove(px[i])
 
         #ELSE sort the temp on the x
-        temp = sort_coordinates(temp, 1)
-
+        temp = sort_coordinates(temp, 0)
+        #path.append(temp[0])
         #dump it in the th path in order of decreasing y
         for i in range(len(temp)-1, -1, -1):
             path.append(temp[i])
             px.remove(temp[i])
+            py.remove(temp[i])
+
+
+
+
+
+    # ##adding the low y point
+    # if(len(px) != 0 and px != ''):
+    #     prevlow = py[0]
+    #     path.append(py[0])       #add to path
+    #     px.remove(py[0])      #remove
+    #     py.pop(0)   #remove from end of x
+
+    # #RightInside----------------------------------------------------
+    # if(len(px) != 0 and px != ''):
+    #     #setdump RIGHT
+    #     temp = []
+    #     for i in range(0,len(px)):
+    #         if (px[i][0] >= py[0][0]) & (px[i][1] <= py[len(px)-1][1] ):
+    #             temp.append(px[i])
+    #             px.remove(px[i])
+    #
+    #     #ELSE sort the temp on the x
+    #     temp = sort_coordinates(temp, 1)
+    #
+    #     #dump it in the th path in order of inccreasing y
+    #     for i in range(0, len(temp)-1):
+    #         path.append(temp[i])
+    #         py.remove(temp[i])
+    #
+    #     prevx = px[len(px)-1]           #needed for next point
+    #     path.append(px[len(px)-1])       #add next high x to path
+    #     py.remove(px[len(px)-1])         #remove
+    #     px.pop(len(px)-1)               #remove from end of x
+    #
+    # #-----------------------------------------------------------------
+    #
+    # #TOPInside----------------------------------------------------
+    # if(len(px) != 0 and px != ''):
+    #     #setdump RIGHT
+    #     temp = []
+    #     for i in range(0,len(px)):
+    #         if (px[i][0] >= py[len(py)-1][0]) & (px[i][1] >= prevx[1] ):
+    #             temp.append(px[i])
+    #             px.remove(px[i])
+    #
+    #     #ELSE sort the temp on the x
+    #     temp = sort_coordinates(temp, 0)
+    #
+    #     #dump it in the th path in order of inccreasing y
+    #     for i in range(len(temp)-1, -1, -1):
+    #         path.append(temp[i])
+    #         py.remove(temp[i])
+    #
+    #     path.append(py[len(px)-1])       #add next high y to path
+    #     px.remove(py[len(px)-1])         #remove from x
+    #     py.pop(len(px)-1)               #remove from end of y
+    #
+    # #-----------------------------------------------------------------
+    #
+    # #LEFTInside----------------------------------------------------
+    # if(len(px) != 0 and px != ''):
+    #     #setdump RIGHT
+    #     temp = []
+    #     for i in range(0,len(px)):
+    #         if (px[i][0] >= py[len(py)-1][0]) & (px[i][1] >= prevx[1] ):
+    #             temp.append(px[i])
+    #             px.remove(px[i])
+    #
+    #     #ELSE sort the temp on the x
+    #     temp = sort_coordinates(temp, 0)
+    #
+    #     #dump it in the th path in order of inccreasing y
+    #     for i in range(len(temp)-1, -1, -1):
+    #         path.append(temp[i])
+    #         py.remove(temp[i])
+    #
+    #     path.append(py[len(px)-1])       #add next high y to path
+    #     px.remove(py[len(px)-1])         #remove from x
+    #     py.pop(len(px)-1)               #remove from end of y
+
+    #-----------------------------------------------------------------
 
     #BOTTOM CYCLE
-    #now add lowy
+    #now add py[0]
     if(len(px) != 0 and px != ''):
-        path.append(lowy)       #add to path
-        if (px.count(lowy)):
-            px.remove(lowy)      #remove
-        py.pop(0)   #remove from end of x
+        # path.append(py[0])       #add to path
+        # px.remove(py[0])      #remove
+        # py.pop(0)   #remove from end of x
 
         #setdump Bottom
         temp = []
         for i in range(0,len(px)):
-            if (px[i][0] <= lowy[0]) & (px[i][1] <= lowx[1]):
+            if (px[i][0] <= py[0][0] ) & (px[i][1] <= px[0][1] ):
                 temp.append(px[i])
-                py.remove(px[i])
+
 
         #ELSE sort the temp on the x
         temp = sort_coordinates(temp, 0)
@@ -262,52 +389,110 @@ def spiralTSP(px, py):
         for i in range(len(temp)-1, -1, -1):
             path.append(temp[i])
             px.remove(temp[i])
-
+            py.remove(temp[i])
 
     if(len(px) > 1 ):
-        spiralTSP(px, py)
-    elif(len(px) == 1) :
+        #spiralTSP(px, py)
+        print(px)
+    #elif(len(px) == 1) :
 
-        path.append(px[0])
-        #dont think this is necessary but we'll see
+        # path.append(px[0])
+        # dont think this is necessary but we'll see
         # if(len(py)>0):
         #     for i in range(0,len(py)):
         #         path.append(py[i])
 
     else:
         print('have a nice day')
+#now call dat...
+# start = time.time()
+# spiralTSP(xsorted, ysorted)
+# stop = time.time()
+# duration = stop-start
+#print ('It took this long to calculate points: %d ')%  duration #something wrong with this stupid line
+#print ('It took this long to calculate %d ')% duration #something wrong with this stupid line
 
-zlist = read_file('tsp_test_cases/test-input-3.txt')
 
+def bs():
+    factor = int(len(xsorted)/4) # for dividing up the grid
+
+    xslice = xsorted[0:factor]
+    yslice = ysorted[0:factor]
+
+    xset = set(xslice)
+    yset = set(yslice)
+
+    #get the matching points and resort
+    points = sort_coordinates(list(xset & yset), 1)
+    print (points)
+
+    #put lowest in a list
+    path = []
+    path.append(points[0])
+    points.pop(0)
+
+    for i in range(0, len(points)):
+        path.append(calc_minDistance(path[len(path)-1], points))  # start at the end of the path calc to al other points
+        points.remove(path[len(path)-1])
+        print (points)
+        print(path)
+
+    pathset = set(path)
+
+
+zlist = read_file('tsp_test_cases/tsp_example_1.txt')
 test = [(0, 50, 0), (0, 40, 1), (0, 10, 2)]
 ysorted = sort_coordinates(zlist, 1)
 xsorted = sort_coordinates(zlist, 0)
 
-#now call dat...
-start = time.time()
-spiralTSP(xsorted, ysorted)
-stop = time.time()
-duration = stop-start
-#print ('It took this long to calculate points: %d ')%  duration #something wrong with this stupid line
-#print ('It took this long to calculate %d ')% duration #something wrong with this stupid line
+bs()
 
-print('duration:')
-print(duration)
+print(path)
+# update xsotred and y sorted
+# new = list( set(xsorted)&set(ysorted) )
+# ysorted = sort_coordinates(new, 1)
+# xsorted = sort_coordinates(new, 0)
+#
+# print(new)
+# print(len(new))
+
+#union = list(xset.intersection(yset))
+
+#print(union)
+#
+#
+# for i in range(0, factor-1):            #n/5 elements
+#     xset.add(xsorted[i])
+#     yset.add(ysorted[i])
+
+
+#print(xset)
+#print(yset)
+
+#
+# union = list(xset.intersection(yset))
+# union2 = xset.symmetric_difference(yset)
+#
+# print(union)
+
+#
+# print('duration:')
+# print(duration)
 
 
 # print path
 # and time it took
-print(path)
-distance = 0
-for i in range(0,len(path)-1):
-    distance += calc_distance(path[i],path[i+1])
-
-print(distance)
-
-#checking lists for duplicates because list 3 is not working and I cannot explain it
-dupCheck = set()
-for i in range (0, len(xsorted)):
-    dupCheck.add(xsorted[i])
-
-if len(dupCheck) == len(xsorted):
-    print ('they are equal')
+# print(path)
+# distance = 0
+# for i in range(0,len(path)-1):
+#     distance += calc_distance(path[i],path[i+1])
+#
+# print(distance)
+#
+# #checking lists for duplicates because list 3 is not working and I cannot explain it
+# dupCheck = set()
+# for i in range (0, len(xsorted)):
+#     dupCheck.add(xsorted[i])
+#
+# if len(dupCheck) == len(xsorted):
+#     print ('they are equal')
